@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chronos & Psyche | Museum Biblioteka</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=IM+Fell+English+SC&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --dark-wood: #1a0f0a;
+            --aged-paper: #e8d5b5;
+            --faded-ink: #3b2f2f;
+            --gold-leaf: #af8f2c;
+            --blood-red: #631919;
+        }
+
+        body {
+            background-color: var(--dark-wood);
+            color: var(--faded-ink);
+            font-family: 'Libre+Baskerville', serif;
+            overflow-x: hidden;
+            cursor: url('https://cur.cursors-4u.net/others/oth-1/oth11.cur'), auto;
+        }
+
+        /* Background Texture */
+        .museum-container {
+            background-image: url('https://www.transparenttextures.com/patterns/dark-wood.png');
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        /* Kertas Utama (Manuscript Style) */
+        .manuscript {
+            background: var(--aged-paper);
+            background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+            box-shadow: 0 0 50px rgba(0,0,0,0.8), inset 0 0 100px rgba(139, 69, 19, 0.2);
+            border-radius: 2px;
+            padding: 60px;
+            position: relative;
+            max-width: 1100px;
+            margin: auto;
+            border: 1px solid #c4a484;
+        }
+
+        /* Ornamen Header */
+        .header-ornament {
+            font-family: 'UnifrakturCook', cursive;
+            font-size: 5rem;
+            color: var(--blood-red);
+            text-align: center;
+            border-bottom: 3px double var(--gold-leaf);
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 0px var(--gold-leaf);
+        }
+
+        .latin-motto {
+            font-family: 'IM Fell English SC', serif;
+            text-align: center;
+            display: block;
+            letter-spacing: 5px;
+            color: var(--gold-leaf);
+            margin-bottom: 50px;
+        }
+
+        /* Kliping Koran (Unique Element) */
+        .newspaper-clip {
+            background: #d3c3a3;
+            padding: 15px;
+            border: 1px solid #b5a68a;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
+            transform: rotate(-2deg);
+            transition: 0.5s;
+            margin-bottom: 30px;
+        }
+        .newspaper-clip:hover {
+            transform: rotate(0deg) scale(1.05);
+            z-index: 10;
+        }
+
+        /* Book Grid Layout */
+        .book-entry {
+            border-left: 2px solid var(--gold-leaf);
+            padding-left: 25px;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        .book-entry::before {
+            content: "◈";
+            position: absolute;
+            left: -12px;
+            top: 0;
+            background: var(--aged-paper);
+            color: var(--gold-leaf);
+        }
+
+        .book-img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            filter: grayscale(100%) sepia(50%) contrast(1.2);
+            border: 8px solid white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            transition: 0.5s;
+        }
+        .book-img:hover {
+            filter: none;
+        }
+
+        /* Wax Seal Button */
+        .wax-seal {
+            background: var(--blood-red);
+            color: white;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            text-align: center;
+            text-decoration: none;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+            border: 2px solid #4a1111;
+            float: right;
+            transform: rotate(10deg);
+            transition: 0.3s;
+        }
+        .wax-seal:hover {
+            transform: rotate(0deg) scale(1.1);
+            color: var(--gold-leaf);
+        }
+
+        /* Sidebar Navigation Floating */
+        .nav-sidebar {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+        }
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--gold-leaf);
+            border-radius: 50%;
+            margin: 15px 0;
+            display: block;
+            border: 2px solid var(--dark-wood);
+        }
+
+        /* Night Mode Overlay Effect */
+        .flashlight-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            background: radial-gradient(circle 200px at var(--x, 50%) var(--y, 50%), rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 100%);
+            z-index: 999;
+        }
+
+        @media (max-width: 768px) {
+            .manuscript { padding: 20px; }
+            .header-ornament { font-size: 3rem; }
+            .nav-sidebar { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="flashlight-overlay" id="flashlight"></div>
+
+    <nav class="nav-sidebar">
+        <a href="#section-historia" class="nav-dot" title="Historia"></a>
+        <a href="#section-psyche" class="nav-dot" title="Psyche"></a>
+        <a href="#section-arch" class="nav-dot" title="Archives"></a>
+    </nav>
+
+    <div class="museum-container">
+        <div class="manuscript">
+            
+            <header>
+                <div class="header-ornament">Chronos & Psyche</div>
+                <span class="latin-motto">SAPIENTIA IN LIBRIS EST</span>
+            </header>
+
+            <section id="section-historia">
+                <div class="row mb-5">
+                    <div class="col-md-7">
+                        <div class="book-entry">
+                            <span class="text-uppercase small fw-bold" style="color: var(--blood-red)">Arsip Sejarah #01</span>
+                            <h2 class="my-3">The Decline and Fall of the Roman Empire</h2>
+                            <p class="fst-italic text-muted">— Edward Gibbon (1776)</p>
+                            <p>Karya monumental yang menelusuri jejak keruntuhan peradaban terbesar dunia dari sudut pandang ekonomi, moralitas, dan invasi barbar. Gibbon menghabiskan puluhan tahun untuk merajut narasi yang mengubah cara kita memandang sejarah.</p>
+                            <a href="#" class="wax-seal">Buka Segel</a>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="newspaper-clip">
+                            <img src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&q=80&w=400" alt="Roma" class="book-img">
+                            <p class="small mt-2 text-center fst-italic">"Reruntuhan Colosseum, Sketsa 1850"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-5">
+                    <div class="col-md-5">
+                        <div class="newspaper-clip" style="transform: rotate(3deg);">
+                            <img src="prince.jpg" alt="Napoleon" class="book-img">
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="book-entry">
+                            <span class="text-uppercase small fw-bold" style="color: var(--blood-red)">Arsip Sejarah #02</span>
+                            <h2 class="my-3">The Prince (Il Principe)</h2>
+                            <p class="fst-italic text-muted">— Niccolò Machiavelli (1532)</p>
+                            <p>Analisis paling jujur dan kejam tentang kekuasaan. Machiavelli membedah bagaimana seorang penguasa harus bertindak demi mempertahankan stabilitas, yang menjadi dasar pemikiran politik modern selama berabad-abad.</p>
+                            <a href="#" class="wax-seal">Buka Segel</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="text-center my-5 py-5">
+                <div style="border-top: 1px solid var(--gold-leaf); width: 200px; margin: auto; opacity: 0.5;"></div>
+                <span style="font-size: 2rem;">❦</span>
+                <div style="border-bottom: 1px solid var(--gold-leaf); width: 200px; margin: auto; opacity: 0.5;"></div>
+            </div>
+
+            <section id="section-psyche">
+                <div class="row">
+                    <div class="col-12 text-center mb-5">
+                        <h2 style="font-family: 'IM Fell English SC';">Labirin Psikologi Klasik</h2>
+                    </div>
+                    
+                    <div class="col-md-6 mb-5">
+                        <div class="p-4 border border-dark">
+                            <img src="liber_.jpg" alt="Jung" class="img-fluid mb-3" style="filter: sepia(1);">
+                            <h3>The Red Book (Liber Novus)</h3>
+                            <p class="small fw-bold">C.G. JUNG</p>
+                            <p>Buku harian rahasia yang berisi perjalanan Jung ke dalam kegelapan jiwanya sendiri. Penuh dengan gambar-gambar mistis dan dialog dengan entitas internal. Buku ini baru dipublikasikan secara luas setelah kematiannya.</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-5">
+                        <div class="p-4 border border-dark">
+                            <img src="ref.jpg" alt="Pavlov" class="img-fluid mb-3" style="filter: sepia(1);">
+                            <h3>Conditioned Reflexes</h3>
+                            <p class="small fw-bold">IVAN PAVLOV</p>
+                            <p>Dokumentasi eksperimen legendaris yang membuktikan bagaimana perilaku dapat dibentuk melalui stimulasi. Pondasi utama dari ilmu perilaku (Behaviorisme) yang mengubah cara kita melihat proses belajar.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="text-center pt-5 mt-5 border-top border-dark">
+                <p class="mb-0">"Buku adalah teman yang paling tenang dan setia; mereka adalah pembimbing yang paling bijaksana."</p>
+                <small>Chronos & Psyche Digital Museum &copy; 2026</small>
+            </footer>
+
+        </div>
+    </div>
+
+    <script>
+        const flashlight = document.getElementById('flashlight');
+        window.addEventListener('mousemove', e => {
+            flashlight.style.setProperty('--x', e.clientX + 'px');
+            flashlight.style.setProperty('--y', e.clientY + 'px');
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
